@@ -6,7 +6,7 @@ from json import loads, dumps
 from dotenv import load_dotenv
 
 load_dotenv()
-client = commands.Bot(command_prefix=".")
+client = commands.Bot(command_prefix=os.getenv("PREFIX"))
 
 bot_ids = {
     "MekAIO": 97,

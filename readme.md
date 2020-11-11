@@ -1,6 +1,7 @@
 # botbroker-discord
 botbroker-discord is a discord bot application to integrate the BotBroker v2 API.
 Currently it supports all Bot listings, but not groups. It could easily be extended to support groups.
+You will need to contact Shrey from BotBroker at 66_shrey on Twitter to acquire an API key.
 
 ## Usage
 You will need to create .env files in the format of the .example.env files in order for the program to run correctly. Included are Procfiles for Heroku if you're interested in hosting it there. If the buildpack is not detected, use Python for the py folder, and Node for the js folder.

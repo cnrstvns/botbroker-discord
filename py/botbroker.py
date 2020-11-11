@@ -1,8 +1,11 @@
+import os
 import discord
+import requests
 from discord.ext import commands
 from json import loads, dumps
-import requests
+from dotenv import load_dotenv
 
+load_dotenv()
 client = commands.Bot(command_prefix=".")
 
 bot_ids = {
@@ -91,7 +94,7 @@ bot_images = {
 
 BASE_URL = "https://api.botbroker.io/api/v2"
 HEADERS = {
-    "x-api-key": ""
+    "x-api-key": os.getenv("API_KEY")
 }
 
 def selectBot(botName):
@@ -171,4 +174,4 @@ async def botbroker(ctx, query):
         price_data["Highest Bid: Lifetime"] = lifetime_bid
     await ctx.send(embed=productEmbed(ctx, bot, bot_color, bot_image, price_data))
 
-client.run()
+client.run(os.getenv("DISCORD_TOKEN"))

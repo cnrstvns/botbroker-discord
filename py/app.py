@@ -131,18 +131,24 @@ def determine(data):
         return f"${price}"
 
 def fetchAsks(bot_id):
-    response = requests.get(f"{BASE_URL}/asks?product_id={bot_id}&sort_by=price&order=asc&key_type=renewal", headers=HEADERS)
-    renewal_data = determine(loads(response.text))
-    response = requests.get(f"{BASE_URL}/asks?product_id={bot_id}&sort_by=price&order=asc&key_type=lifetime", headers=HEADERS)
-    lifetime_data = determine(loads(response.text))
-    return renewal_data, lifetime_data
+    try:
+        response = requests.get(f"{BASE_URL}/asks?product_id={bot_id}&sort_by=price&order=asc&key_type=renewal", headers=HEADERS)
+        renewal_data = determine(loads(response.text))
+        response = requests.get(f"{BASE_URL}/asks?product_id={bot_id}&sort_by=price&order=asc&key_type=lifetime", headers=HEADERS)
+        lifetime_data = determine(loads(response.text))
+        return renewal_data, lifetime_data
+    except:
+        return "Error Fetching Data", "Error Fetching Data"
 
 def fetchBids(bot_id):
-    response = requests.get(f"{BASE_URL}/bids?product_id={bot_id}&sort_by=price&order=desc&key_type=renewal", headers=HEADERS)
-    renewal_data = determine(loads(response.text))
-    response = requests.get(f"{BASE_URL}/bids?product_id={bot_id}&sort_by=price&order=desc&key_type=lifetime", headers=HEADERS)
-    lifetime_data = determine(loads(response.text))
-    return renewal_data, lifetime_data
+    try:
+        response = requests.get(f"{BASE_URL}/bids?product_id={bot_id}&sort_by=price&order=desc&key_type=renewal", headers=HEADERS)
+        renewal_data = determine(loads(response.text))
+        response = requests.get(f"{BASE_URL}/bids?product_id={bot_id}&sort_by=price&order=desc&key_type=lifetime", headers=HEADERS)
+        lifetime_data = determine(loads(response.text))
+        return renewal_data, lifetime_data
+    except:
+        return "Error Fetching Data", "Error Fetching Data"
 
 @client.event
 async def on_ready():

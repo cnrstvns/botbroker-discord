@@ -1,7 +1,7 @@
 {
-    "name": "botbroker-discord/JS",
+    "name": "botbroker-discord",
     "description": "A Discord Bot application to integrate the BotBroker v2 API.",
-    "repository": "https://github.com/connorstevens/botbroker-discord/js",
+    "repository": "https://github.com/connorstevens/botbroker-discord",
     "env": {
         "DISCORD_TOKEN": {
             "description": "Your Discord Bot Application's Bot Token",

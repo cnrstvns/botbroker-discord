@@ -118,31 +118,61 @@ const productNotFound = () => {
 }
 
 const determine = data => {
-    if(data.asks == []) return "No Data Available";
+    if(data.asks.length == 0) return "No Data Available.";
     else {
         const price = data.asks[0].price;
         return `$${price}`
     }
 }
 
-const productEmbed = (ctx, title, color, image, prices) => {
+const productEmbed = (icon, title, color, image, prices) => {
     const embed = new MessageEmbed()
-    .title(title)
-    .color(color)
+    .setTitle(title)
+    .setColor(color)
     .setThumbnail(image)
-    .addFields(prices.map((item) => {
-        
+    .addFields(Object.keys(prices).map((item) => {
+        return {name: item, value: prices[item], inline: false}
     }))
-    .setFooter("BotBroker v2", ctx.guild.icon_url); 
-    return embed
+    .setFooter("BotBroker v2", icon); 
+    return embed;
 }
 
-const fetchAsks = botId => {
-    
+const fetchAsks = async(botId) => {
+    try{
+        const { body: renewalBody } = await got(`${BASE_URL}/asks?product_id=${botId}&sort_by=price&order=asc&key_type=renewal`, {
+            headers: HEADERS,
+            responseType: 'json'
+        })
+        const renewalData = determine(renewalBody);
+        const { body: lifetimeBody } = await got(`${BASE_URL}/asks?product_id=${botId}&sort_by=price&order=asc&key_type=lifetime`, {
+            headers: HEADERS,
+            responseType: 'json'
+        })
+        const lifetimeData = determine(lifetimeBody);
+        return [renewalData, lifetimeData];
+    }
+    catch(err){
+        return ["Error Fetching Data", "Error Fetching Data"];
+    }
 }
 
-const fetchBids = botId => {
-    
+const fetchBids = async(botId) => {
+    try{
+        const { body: renewalBody } = await got(`${BASE_URL}/bids?product_id=${botId}&sort_by=price&order=desc&key_type=renewal`, {
+            headers: HEADERS,
+            responseType: 'json'
+        })
+        const renewalData = determine(renewalBody);
+        const { body: lifetimeBody } = await got(`${BASE_URL}/asks?product_id=${botId}&sort_by=price&order=desc&key_type=lifetime`, {
+            headers: HEADERS,
+            responseType: 'json'
+        })
+        const lifetimeData = determine(lifetimeBody);
+        return [renewalData, lifetimeData];
+    }
+    catch(err){
+        return ["Error Fetching Data", "Error Fetching Data"];
+    }
 }
 
 module.exports = {
@@ -150,6 +180,8 @@ module.exports = {
     selectId: selectId,
     selectColor: selectColor,
     selectImage: selectImage,
+    fetchAsks: fetchAsks,
+    fetchBids: fetchBids,
     productNotFound: productNotFound,
     productEmbed: productEmbed
 }

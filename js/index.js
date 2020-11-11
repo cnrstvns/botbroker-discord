@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { selectBot, productNotFound, selectColor, selectId, selectImage } = require('./utils');
+const { selectBot, productNotFound, selectColor, selectId, selectImage, fetchBids, fetchAsks, productEmbed } = require('./utils');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
@@ -16,6 +16,7 @@ client.on("message", async(message) => {
     const commandBody = message.content.slice(prefix.length);
     const args = commandBody.split(' ');
     const command = args.shift().toLowerCase();
+    const icon = message.guild.iconURL;
 
     if(command == "botbroker"){
         const bot = selectBot(args[0]);
@@ -26,7 +27,26 @@ client.on("message", async(message) => {
             const botColor = selectColor(bot);
             const botImage = selectImage(bot);
             const botId = selectId(bot);
-            
+            const askData = await fetchAsks(botId);
+            const bidData = await fetchBids(botId);
+            const renewalAsk = askData[0];
+            const lifetimeAsk = askData[1];
+            const renewalBid = bidData[0];
+            const lifetimeBid = bidData[1];
+            let priceData = {};
+            if (renewalAsk != "No Data Available."){
+                priceData["Lowest Ask: Renewal"] = renewalAsk;
+            }
+            if (renewalBid != "No Data Available."){
+                priceData["Highest Bid: Renewal"] = renewalBid;
+            }
+            if (lifetimeAsk != "No Data Available."){
+                priceData["Lowest Ask: Lifetime"] = lifetimeAsk;
+            }
+            if (lifetimeBid != "No Data Available."){
+                priceData["Highest Bid: Lifetime"] = lifetimeBid;
+            }
+            await message.channel.send(productEmbed(icon, bot, botColor, botImage, priceData));
         }
     }
 })

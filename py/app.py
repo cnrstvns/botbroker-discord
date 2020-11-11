@@ -150,6 +150,7 @@ async def on_ready():
 
 @client.command(pass_context=True)
 async def botbroker(ctx, query):
+    query = query.lower()
     bot = selectBot(query)
     if bot == "Product Not Found":
         return await ctx.send(embed=productNotFound())

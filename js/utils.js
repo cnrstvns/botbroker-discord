@@ -25,7 +25,8 @@ const bot_ids = {
     "CyberAIO": 6,
     "Project Destroyer": 5,
     "Phantom": 2,
-    "Dashe": 4
+    "Dashe": 4,
+    "Dragon AIO": 98
 }
 
 const bot_keywords = {
@@ -46,7 +47,8 @@ const bot_keywords = {
     "CyberAIO": ["cybersole aio", "cybersole", "cyber", "cyberaio"],
     "Project Destroyer": ["project destroyer", "pd"],
     "Phantom": ["phantom", "ghost"],
-    "Dashe": ['dashe']
+    "Dashe": ['dashe'],
+    "Dragon AIO": ['dragon', 'dragon aio']
 }
 
 const bot_colors = {
@@ -67,7 +69,8 @@ const bot_colors = {
     "CyberAIO": "#56FC82",
     "Project Destroyer": "#D55093",
     "Phantom": "#FED501",
-    "Dashe": "#4873B7"
+    "Dashe": "#4873B7",
+    "Dragon AIO": "FF182F"
 }
 
 const bot_images = {
@@ -88,11 +91,11 @@ const bot_images = {
     "CyberAIO": "https://i.imgur.com/cvdVKqb.png",
     "Project Destroyer": "https://i.imgur.com/pF9aUGu.png",
     "Phantom": "https://i.imgur.com/8satPLU.png",
-    "Dashe": "https://i.imgur.com/CV6MWXM.png"
+    "Dashe": "https://i.imgur.com/CV6MWXM.png",
+    "Dragon AIO": "https://i.imgur.com/lmLLvTu.png"
 }
 
 const selectBot = botName => {
-    let result;
     for(bot in bot_keywords){
         if(bot_keywords[bot].includes(botName)) return bot;
     }
